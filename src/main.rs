@@ -49,6 +49,10 @@ enum Commands {
         #[arg(long, short)]
         increment: Option<usize>,
 
+        /// Rolling average size; e.g. 30 will mean the rolling average over 30 frames.
+        #[arg(long, short, default_value_t = 30)]
+        average_size: usize,
+
         /// Whether to output a frame-by-frame graph of scores.
         #[arg(long, short)]
         graph: bool,
@@ -100,6 +104,7 @@ fn main() {
             distorted,
             frame_threads,
             increment,
+            average_size,
             graph,
             verbose,
             src_matrix,
@@ -136,6 +141,7 @@ fn main() {
                 &distorted,
                 frame_threads,
                 inc,
+                average_size,
                 graph,
                 verbose,
                 src_matrix,

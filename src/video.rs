@@ -164,6 +164,7 @@ pub fn compare_videos(
     distorted: &str,
     frame_threads: usize,
     inc: usize,
+    average_size: usize,
     graph: bool,
     verbose: bool,
     src_matrix: MatrixCoefficients,
@@ -197,6 +198,7 @@ pub fn compare_videos(
             distorted_frame_count,
             frame_threads,
             inc,
+            average_size,
             graph,
             verbose,
             src_matrix,
@@ -228,6 +230,7 @@ pub fn compare_videos(
             None,
             frame_threads,
             inc,
+            average_size,
             graph,
             verbose,
             src_matrix,
@@ -268,6 +271,7 @@ pub fn compare_videos(
         distorted_frame_count,
         frame_threads,
         inc,
+        average_size,
         graph,
         verbose,
         src_matrix,
@@ -289,6 +293,7 @@ fn compare_videos_inner<D: Decoder + 'static, E: Decoder + 'static>(
     distorted_frame_count: Option<usize>,
     frame_threads: usize,
     inc: usize,
+    average_size: usize,
     graph: bool,
     verbose: bool,
     mut src_matrix: MatrixCoefficients,
@@ -441,7 +446,7 @@ fn compare_videos_inner<D: Decoder + 'static, E: Decoder + 'static>(
         }
 
         results.insert(score.0, score.1);
-        avg = avg + (score.1 - avg) / (min(results.len(), 10) as f64);
+        avg = avg + (score.1 - avg) / (min(results.len(), average_size) as f64);
         progress.set_message(format!(", avg: {:.1$}", avg, 2));
         progress.inc(inc.try_into().unwrap());
     }
